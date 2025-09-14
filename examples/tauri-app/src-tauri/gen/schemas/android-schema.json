@@ -2121,16 +2121,28 @@
           "markdownDescription": "Denies the unminimize command without any pre-configured scope."
         },
         {
-          "description": "Default permissions for the plugin\n#### This default permission set includes:\n\n- `allow-ping`",
+          "description": "Default permissions for the plugin\n#### This default permission set includes:\n\n- `allow-ping`\n- `allow-greet`",
           "type": "string",
           "const": "foxtrail-worker:default",
-          "markdownDescription": "Default permissions for the plugin\n#### This default permission set includes:\n\n- `allow-ping`"
+          "markdownDescription": "Default permissions for the plugin\n#### This default permission set includes:\n\n- `allow-ping`\n- `allow-greet`"
+        },
+        {
+          "description": "Enables the greet command without any pre-configured scope.",
+          "type": "string",
+          "const": "foxtrail-worker:allow-greet",
+          "markdownDescription": "Enables the greet command without any pre-configured scope."
         },
         {
           "description": "Enables the ping command without any pre-configured scope.",
           "type": "string",
           "const": "foxtrail-worker:allow-ping",
           "markdownDescription": "Enables the ping command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the greet command without any pre-configured scope.",
+          "type": "string",
+          "const": "foxtrail-worker:deny-greet",
+          "markdownDescription": "Denies the greet command without any pre-configured scope."
         },
         {
           "description": "Denies the ping command without any pre-configured scope.",

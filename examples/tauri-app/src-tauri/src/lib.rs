@@ -1,7 +1,18 @@
 // Learn more about Tauri commands at https://v2.tauri.app/develop/calling-rust/#commands
+// #[tauri::command]
+// fn greet(name: &str) -> String {
+//     format!("Hello, {}! You've been greeted from Rust!", name)
+// }
+
+use tauri::{AppHandle, Runtime};
+use tauri_plugin_foxtrail_worker::FoxtrailWorkerExt;
+
 #[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
+async fn greet<R: Runtime>(app: AppHandle<R>, name: String) -> Option<String> {
+    return match app.foxtrail_worker().greet(name) {
+        Ok(data) => Some(data),
+        _ => None,
+    };
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
