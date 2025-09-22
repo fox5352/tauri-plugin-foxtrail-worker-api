@@ -18,6 +18,32 @@ Default permissions for the plugin
 <tr>
 <td>
 
+`foxtrail-worker:allow-greet`
+
+</td>
+<td>
+
+Enables the greet command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+`foxtrail-worker:deny-greet`
+
+</td>
+<td>
+
+Denies the greet command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
 `foxtrail-worker:allow-ping`
 
 </td>
