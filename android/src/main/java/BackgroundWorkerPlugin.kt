@@ -11,6 +11,8 @@ import app.tauri.plugin.Invoke
 @InvokeArg
 class WorkerPingArgs {  // Changed name
   var value: String? = null
+  var user_id: String? = null
+  var url: String? = null
 }
 
 @TauriPlugin
@@ -23,6 +25,18 @@ class BackgroundWorkerPlugin(private val activity: Activity) : Plugin(activity) 
 
     val ret = JSObject()
     ret.put("value", args.value ?: "default value :(")
+    invoke.resolve(ret)
+  }
+
+  @Command
+  fun start_worker(invoke: Invoke) {
+    // worker.start(activity.applicationContext)
+    val user_id = invoke.parseArgs(WorkerPingArgs::class.java)
+
+    worker.start(activity.applicationContext)
+
+    val ret = JSObject()
+    ret.put("value", "Worker started")
     invoke.resolve(ret)
   }
 }
