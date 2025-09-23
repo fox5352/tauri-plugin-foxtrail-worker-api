@@ -1,4 +1,4 @@
-package com.fox5352.foxtrail_frontend
+package com.plugin.foxtrailworker
 
 import android.content.Context
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -9,9 +9,9 @@ import androidx.work.WorkerParameters
 import java.util.concurrent.TimeUnit
 
 class FeedSyncWorker(
- appContext: Context,
+  appContext: Context,
   val params: WorkerParameters
-): Worker(appContext, params) {
+) : Worker(appContext, params) {
 
   override fun doWork(): Result {
     val user_id = params.inputData.getString("user_id")
