@@ -61,4 +61,8 @@ dependencies {
 
     // optional - Multiprocess support
     implementation("androidx.work:work-multiprocess:$work_version")
+
+
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
+
 }
