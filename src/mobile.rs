@@ -15,7 +15,8 @@ pub fn init<R: Runtime, C: DeserializeOwned>(
     api: PluginApi<R, C>,
 ) -> crate::Result<FoxtrailWorker<R>> {
     #[cfg(target_os = "android")]
-    let handle = api.register_android_plugin("com.plugin.foxtrailworker", "ExamplePlugin")?;
+    let handle =
+        api.register_android_plugin("com.plugin.foxtrailworker", "BackgroundWorkerPlugin")?;
     #[cfg(target_os = "ios")]
     let handle = api.register_ios_plugin(init_plugin_foxtrail_worker)?;
     Ok(FoxtrailWorker(handle))

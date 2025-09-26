@@ -17,5 +17,5 @@ pub struct PingResponse {
 pub struct WorkerRequest {
     pub value: Option<String>,
     pub user_id: Option<String>,
-    pub worker_id: Option<String>,
+    pub url: Option<String>,
 }

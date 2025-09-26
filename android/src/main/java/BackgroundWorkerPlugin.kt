@@ -29,6 +29,13 @@ class BackgroundWorkerPlugin(private val activity: Activity) : Plugin(activity) 
   }
 
   @Command
+  fun greet(invoke: Invoke) {
+    val ret = JSObject()
+    ret.put("value", "Hello from kotlin")
+    invoke.resolve(ret)
+  }
+
+  @Command
   fun start_worker(invoke: Invoke) {
     // worker.start(activity.applicationContext)
     val user_id = invoke.parseArgs(WorkerPingArgs::class.java)
