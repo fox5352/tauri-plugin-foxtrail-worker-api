@@ -37,4 +37,10 @@ impl<R: Runtime> FoxtrailWorker<R> {
             .run_mobile_plugin("greet", payload)
             .map_err(Into::into)
     }
+
+    pub fn start_worker(&self, payload: WorkerRequest) -> crate::Result<PingResponse> {
+        self.0
+            .run_mobile_plugin("start_worker", payload)
+            .map_err(Into::into)
+    }
 }
