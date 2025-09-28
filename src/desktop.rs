@@ -25,4 +25,10 @@ impl<R: Runtime> FoxtrailWorker<R> {
             value: payload.value,
         })
     }
+
+    pub fn start_worker(&self, _payload: WorkerRequest) -> crate::Result<PingResponse> {
+        Ok(PingResponse {
+            value: Some("not implemented".to_string()),
+        })
+    }
 }
