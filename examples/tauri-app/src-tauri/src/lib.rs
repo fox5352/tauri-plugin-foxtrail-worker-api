@@ -18,9 +18,9 @@ async fn greet<R: Runtime>(app: AppHandle<R>, name: String) -> Option<String> {
 async fn start_worker<R: Runtime>(app: AppHandle<R>) -> Option<String> {
     app.foxtrail_worker()
         .start_worker(WorkerRequest {
-            user_id: None,
-            value: Some("testing".to_string()),
-            url: None,
+            value: None,
+            token: "badcat101".to_string(),
+            url: Some("http://10.0.0.156:8787/api?user_id=12345".to_string()),
         })
         .ok()?
         .value

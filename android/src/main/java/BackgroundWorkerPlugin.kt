@@ -11,13 +11,14 @@ import app.tauri.plugin.Invoke
 @InvokeArg
 class WorkerPingArgs {  // Changed name
   var value: String? = null
-  var user_id: String? = null
+  var token: String? = null
   var url: String? = null
 }
 
 @TauriPlugin
 class BackgroundWorkerPlugin(private val activity: Activity) : Plugin(activity) {
   private val worker = BackgroundWorker()
+  private val fetch = Fetch()
 
   @Command
   fun ping(invoke: Invoke) {
@@ -35,15 +36,28 @@ class BackgroundWorkerPlugin(private val activity: Activity) : Plugin(activity) 
     invoke.resolve(ret)
   }
 
+
   @Command
   fun start_worker(invoke: Invoke) {
-    // worker.start(activity.applicationContext)
-    val user_id = invoke.parseArgs(WorkerPingArgs::class.java)
-
-    worker.start(activity.applicationContext)
-
+    val args = invoke.parseArgs(WorkerPingArgs::class.java)
     val ret = JSObject()
-    ret.put("value", "Worker started")
-    invoke.resolve(ret)
+
+
+    val url = args.url
+    val token = args.token
+
+    // Validate
+    if (url.isNullOrBlank()) {
+      ret.put("value", "Missing or empty value on url=$url")
+      invoke.resolve(ret)
+
+    }else {
+      // At this point they're guaranteed to be non-null & non-blank
+      worker.start(activity.applicationContext, url)
+
+      ret.put("value", "Starting worker with url=$url")
+      invoke.resolve(ret)
+
+    }
   }
 }

@@ -16,6 +16,6 @@ pub struct PingResponse {
 #[serde(rename_all = "camelCase")]
 pub struct WorkerRequest {
     pub value: Option<String>,
-    pub user_id: Option<String>,
+    pub token: String,
     pub url: Option<String>,
 }

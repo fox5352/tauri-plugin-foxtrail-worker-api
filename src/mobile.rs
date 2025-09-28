@@ -40,7 +40,14 @@ impl<R: Runtime> FoxtrailWorker<R> {
 
     pub fn start_worker(&self, payload: WorkerRequest) -> crate::Result<PingResponse> {
         self.0
-            .run_mobile_plugin("start_worker", payload)
+            .run_mobile_plugin(
+                "start_worker",
+                WorkerRequest {
+                    value: payload.value,
+                    token: payload.token,
+                    url: payload.url,
+                },
+            )
             .map_err(Into::into)
     }
 }
