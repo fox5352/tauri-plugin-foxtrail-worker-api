@@ -7,6 +7,8 @@
   ],
   "permissions": [
     "core:default",
-    "foxtrail-worker:default"
+    "foxtrail-worker:default",
+    "log:default",
+    "log:allow-log"
   ]
 }
