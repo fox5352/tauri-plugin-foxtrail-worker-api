@@ -1,6 +1,9 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+
+
+    kotlin("plugin.serialization") version "1.9.23"
 }
 
 android {
@@ -69,4 +72,13 @@ dependencies {
     // OkHttp core
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+
+    //sbs
+    // Supabase
+    implementation(platform("io.github.jan-tennert.supabase:bom:2.0.3"))
+    implementation("io.github.jan-tennert.supabase:postgrest-kt")
+
+// Ktor
+    implementation("io.ktor:ktor-client-android:2.3.6")
 }
