@@ -1,4 +1,4 @@
-package com.example.my_test_app
+package com.plugin.foxtrailworker
 
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.createSupabaseClient

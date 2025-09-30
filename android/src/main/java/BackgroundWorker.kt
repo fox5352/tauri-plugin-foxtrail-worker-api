@@ -14,39 +14,36 @@ class FeedSyncWorker(
   val params: WorkerParameters
 ) : CoroutineWorker(appContext, params) {
 
-  private val fetch = Fetch()
-
   override suspend fun doWork(): Result {
     val userId = inputData.getString("user_id")
     val url = inputData.getString("url")
+    val key = inputData.getString("key")
 
-    if (userId.isNullOrEmpty()) {
-      return Result.failure()
-    }
-
-    if (url.isNullOrEmpty()) {
-      return Result.failure()
+    if (userId.isNullOrEmpty() || key.isNullOrEmpty() || url.isNullOrEmpty()) {
+        return Result.failure()
     }
 
     return try {
-      val response = fetch.get(url)
-      println("API Response: $response")
+        val supabase = Supabase(url, key)
 
-      // TODO: trigger push notification if needed
+        supabase.getJobs();
 
-      Result.success()
+
+        Result.success()
     } catch (e: Exception) {
-      e.printStackTrace()
-      Result.retry()
+        e.printStackTrace()
+        Result.retry()
     }
   }
 }
 
 
 class BackgroundWorker {
-  fun start(context: Context, url: String) {
+  fun start(context: Context, url: String, key: String, user_id: String) {
     val inputData = Data.Builder()
       .putString("url", url)
+      .putString("key", key)
+      .putString("user_id", user_id)
       .build()
 
     val workRequest = PeriodicWorkRequestBuilder<FeedSyncWorker>(15, TimeUnit.MINUTES)

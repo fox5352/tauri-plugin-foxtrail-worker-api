@@ -9,16 +9,16 @@ import app.tauri.plugin.Plugin
 import app.tauri.plugin.Invoke
 
 @InvokeArg
-class WorkerPingArgs {  // Changed name
+class WorkerPingArgs {
   var value: String? = null
-  var token: String? = null
-  var url: String? = null
+  var public_url: String? = null
+  var public_key: String? = null
+  var user_id: String? = null
 }
 
 @TauriPlugin
 class BackgroundWorkerPlugin(private val activity: Activity) : Plugin(activity) {
   private val worker = BackgroundWorker()
-  private val fetch = Fetch()
 
   @Command
   fun ping(invoke: Invoke) {
@@ -42,22 +42,20 @@ class BackgroundWorkerPlugin(private val activity: Activity) : Plugin(activity) 
     val args = invoke.parseArgs(WorkerPingArgs::class.java)
     val ret = JSObject()
 
+    val url = args.public_url
+    val key = args.public_key
+    val user_id = args.user_id
 
-    val url = args.url
-    val token = args.token
-
-    // Validate
-    if (url.isNullOrBlank()) {
-      ret.put("value", "Missing or empty value on url=$url")
+    if (url.isNullOrBlank() || key.isNullOrBlank() || user_id.isNullOrBlank()) {
+      ret.put("value", "Missing or empty value on url=$url or key=$key or user_id=$user_id")
       invoke.resolve(ret)
-
-    }else {
-      // At this point they're guaranteed to be non-null & non-blank
-      worker.start(activity.applicationContext, url)
-
-      ret.put("value", "Starting worker with url=$url")
-      invoke.resolve(ret)
-
+      return
     }
+
+    // At this point they're guaranteed to be non-null & non-blank
+    worker.start(activity.applicationContext, url, key, user_id)
+
+    ret.put("value", "Starting worker with url=$url and key=$key and user_id=$user_id")
+    invoke.resolve(ret)
   }
 }
