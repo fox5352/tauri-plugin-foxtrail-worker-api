@@ -15,7 +15,8 @@ pub fn init<R: Runtime, C: DeserializeOwned>(
     api: PluginApi<R, C>,
 ) -> crate::Result<FoxtrailWorker<R>> {
     #[cfg(target_os = "android")]
-    let handle = api.register_android_plugin("com.plugin.foxtrailworker", "ExamplePlugin")?;
+    let handle =
+        api.register_android_plugin("com.plugin.foxtrailworker", "BackgroundWorkerPlugin")?;
     #[cfg(target_os = "ios")]
     let handle = api.register_ios_plugin(init_plugin_foxtrail_worker)?;
     Ok(FoxtrailWorker(handle))
@@ -34,6 +35,20 @@ impl<R: Runtime> FoxtrailWorker<R> {
     pub fn greet(&self, payload: PingRequest) -> crate::Result<PingResponse> {
         self.0
             .run_mobile_plugin("greet", payload)
+            .map_err(Into::into)
+    }
+
+    pub fn start_worker(&self, payload: WorkerRequest) -> crate::Result<PingResponse> {
+        self.0
+            .run_mobile_plugin(
+                "start_worker",
+                WorkerRequest {
+                    public_url: payload.public_url,
+                    public_key: payload.public_key,
+                    user_id: payload.user_id,
+                    value: None,
+                },
+            )
             .map_err(Into::into)
     }
 }
