@@ -1,21 +1,19 @@
 <script>
-  import { invoke } from "@tauri-apps/api/core"
+  import { invoke } from "@tauri-apps/api/core";
 
   let name = $state("");
-  let greetMsg = $state("")
+  let greetMsg = $state("");
 
-  async function greet(){
+  async function greet() {
     // Learn more about Tauri commands at https://v2.tauri.app/develop/calling-rust/#commands
-    greetMsg = await invoke("greet", { name })
+    greetMsg = await invoke("start_worker", { value: name });
   }
 </script>
 
 <div>
   <div class="row">
     <input id="greet-input" placeholder="Enter a name..." bind:value={name} />
-    <button onclick={greet}>
-      Greet
-    </button>
+    <button onclick={greet}> Greet </button>
   </div>
   <p>{greetMsg}</p>
 </div>
