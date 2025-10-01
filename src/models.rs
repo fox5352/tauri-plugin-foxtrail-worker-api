@@ -19,3 +19,10 @@ pub struct WorkerRequest {
     pub user_id: Option<String>,
     pub url: Option<String>,
 }
+
+
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all= "camelCase")]
+pub  struct WorkerResponse {
+    pub value: Option<String>
+}
