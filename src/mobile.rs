@@ -42,12 +42,7 @@ impl<R: Runtime> FoxtrailWorker<R> {
         self.0
             .run_mobile_plugin(
                 "start_worker",
-                WorkerRequest {
-                    public_url: payload.public_url,
-                    public_key: payload.public_key,
-                    user_id: payload.user_id,
-                    value: None,
-                },
+                payload
             )
             .map_err(Into::into)
     }
