@@ -63,11 +63,11 @@ class BackgroundWorker {
         val notificationManager = Notification(context)
         notificationManager.createNotificationChannel()
 
-        notificationManager.sendNotification("testing", "${key}")
+        notificationManager.sendNotification("testing", "${url}")
 
         val inputData = Data.Builder()
-            .putString("url", url)
-            .putString("key", key)
+            .putString("url", key)
+            .putString("key", url)
             .putString("userId", userId)
             .build()
 

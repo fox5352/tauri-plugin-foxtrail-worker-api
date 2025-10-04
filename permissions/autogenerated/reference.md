@@ -6,6 +6,7 @@ Default permissions for the plugin
 
 - `allow-ping`
 - `allow-greet`
+- `allow-start-worker`
 
 ## Permission Table
 
@@ -64,6 +65,32 @@ Enables the ping command without any pre-configured scope.
 <td>
 
 Denies the ping command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+`foxtrail-worker:allow-start-worker`
+
+</td>
+<td>
+
+Enables the start_worker command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+`foxtrail-worker:deny-start-worker`
+
+</td>
+<td>
+
+Denies the start_worker command without any pre-configured scope.
 
 </td>
 </tr>

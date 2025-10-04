@@ -35,7 +35,7 @@ impl<R: Runtime, T: Manager<R>> crate::FoxtrailWorkerExt<R> for T {
 /// Initializes the plugin.
 pub fn init<R: Runtime>() -> TauriPlugin<R> {
     Builder::new("foxtrail-worker")
-        .invoke_handler(tauri::generate_handler![commands::ping])
+        .invoke_handler(tauri::generate_handler![commands::ping, commands::start_worker])
         .setup(|app: &AppHandle<R>, api: PluginApi<R, ()>| {
             #[cfg(mobile)]
             let foxtrail_worker = mobile::init(app, api)?;
