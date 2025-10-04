@@ -19,9 +19,10 @@ async fn start_worker<R: Runtime>(app: AppHandle<R>) -> Option<String> {
     app.foxtrail_worker()
         .start_worker(WorkerRequest {
             value: None,
-            token: "badcat101".to_string(),
-            url: Some("http://10.0.0.156:8787/api?user_id=12345".to_string()),
-        })
+            public_key: Some("https://fvlsvvzbywmozvhwxmzl.supabase.co".to_string()),
+            public_url: Some("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ2bHN2dnpieXdtb3p2aHd4bXpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc0Mzg1MDksImV4cCI6MjA3MzAxNDUwOX0.Si24RvvrYtTNeunPxC-w_qqq8JgdEiFPBh9wNsB0O8g".to_string()),
+            user_id: Some("11668e59-4584-4378-8a4c-cc96eb6c1691".to_string()),
+       })
         .ok()?
         .value
 }
