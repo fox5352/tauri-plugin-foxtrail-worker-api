@@ -1,7 +1,10 @@
+@file:OptIn(kotlinx.serialization.InternalSerializationApi::class)
+
 package com.plugin.foxtrailworker
 
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.postgrest.query.Count
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.from
 
@@ -24,27 +27,40 @@ data class Job(
     val company: String?
 )
 
+@Serializable
+data class FeedCountResponse(
+    @SerialName("get_feed_count") val count: Int
+)
 
 class Supabase(sbUrl: String, sbKey: String) {
 
-    // Create and configure the client with needed modules
     private val client: SupabaseClient = createSupabaseClient(
         supabaseUrl = sbUrl,
         supabaseKey = sbKey
     ) {
-        // install(Auth)      // if you need authentication
-        install(Postgrest) // if you need database access
-        // install(Realtime) // if you need realtime subscriptions
-        // install(Storage)  // if you need file storage
+        install(Postgrest)
     }
 
-    // Method to fetch all jobs
     suspend fun getJobs(): List<Job> {
         val jobs: List<Job> = client
-            .from("jobs")          // table name
-            .select()              // select all columns
-            .decodeList<Job>()     // decode JSON into Job objects
+            .from("jobs")
+            .select()
+            .decodeList<Job>()
 
         return jobs
+    }
+
+    suspend fun getFeedCount(userId: String): Int {
+        val count = client
+            .from("feed")
+            .select {
+                filter {
+                    eq("user_id", userId)
+                }
+                count(Count.EXACT)
+            }
+            .countOrNull()
+
+        return count?.toInt() ?: 0
     }
 }

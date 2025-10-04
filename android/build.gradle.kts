@@ -1,8 +1,6 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-
-
     kotlin("plugin.serialization") version "1.9.23"
 }
 
@@ -12,7 +10,6 @@ android {
 
     defaultConfig {
         minSdk = 21
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -36,49 +33,36 @@ android {
 }
 
 dependencies {
+    // Android Core
+    implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("com.google.android.material:material:1.12.0")
 
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.0")
-    implementation("com.google.android.material:material:1.7.0")
+    // Testing
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    // Project dependencies
     implementation(project(":tauri-android"))
 
-    val work_version = "2.10.4"
+    // WorkManager
+    implementation("androidx.work:work-runtime-ktx:2.10.4")
 
-    // (Java only)
-    implementation("androidx.work:work-runtime:$work_version")
+    // Optional - only if you need testing
+    // androidTestImplementation("androidx.work:work-testing:2.10.4")
 
-    // Kotlin + coroutines
-    implementation("androidx.work:work-runtime-ktx:$work_version")
-
-    // optional - RxJava2 support
-    implementation("androidx.work:work-rxjava2:$work_version")
-
-    // optional - GCMNetworkManager support
-    implementation("androidx.work:work-gcm:$work_version")
-
-    // optional - Test helpers
-    androidTestImplementation("androidx.work:work-testing:$work_version")
-
-    // optional - Multiprocess support
-    implementation("androidx.work:work-multiprocess:$work_version")
-
-
-    implementation("androidx.work:work-runtime-ktx:2.8.1")
-
-    // fetch lib
-    // OkHttp core
+    // Networking
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
-
-    //sbs
-    // Supabase
-    implementation(platform("io.github.jan-tennert.supabase:bom:2.0.3"))
+    // Supabase - BOM manages versions automatically
+    implementation(platform("io.github.jan-tennert.supabase:bom:2.2.1"))
     implementation("io.github.jan-tennert.supabase:postgrest-kt")
+    implementation("io.github.jan-tennert.supabase:functions-kt")
+    // implementation("io.github.jan-tennert.supabase:realtime-kt") // uncomment if needed
 
-// Ktor
+    // Ktor
     implementation("io.ktor:ktor-client-android:2.3.6")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.4")
 }
