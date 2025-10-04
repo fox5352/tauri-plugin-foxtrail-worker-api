@@ -30,6 +30,9 @@ class FeedSyncWorker(
             return Result.failure()
         }
 
+        val notificationManager = Notification(applicationContext)
+        notificationManager.createNotificationChannel()
+
         return try {
             val supabase = Supabase(url, key)
 
@@ -38,6 +41,10 @@ class FeedSyncWorker(
             val count = supabase.getFeedCount(userId)
 
             Log.i("FeedSyncWorker", "Feed count for user $userId: $count")
+
+            // if (count > 0) {
+            //     notificationManager.sendNotification(title="New updates", message="you have $count updates");
+            // }
 
             Result.success()
         } catch (e: Exception) {
