@@ -42,9 +42,9 @@ class FeedSyncWorker(
 
             Log.i("FeedSyncWorker", "Feed count for user $userId: $count")
 
-            // if (count > 0) {
-            //     notificationManager.sendNotification(title="New updates", message="you have $count updates");
-            // }
+            if (count > 0) {
+                notificationManager.sendNotification("Updates", "you have $count new updates")
+                        }
 
             Result.success()
         } catch (e: Exception) {
@@ -58,6 +58,13 @@ class FeedSyncWorker(
 
 class BackgroundWorker {
     fun start(context: Context, url: String, key: String, userId: String) {
+        Log.i("FeedSyncWorker", "Starteerererer")
+
+        val notificationManager = Notification(context)
+        notificationManager.createNotificationChannel()
+
+        notificationManager.sendNotification("testing", "${key}")
+
         val inputData = Data.Builder()
             .putString("url", url)
             .putString("key", key)

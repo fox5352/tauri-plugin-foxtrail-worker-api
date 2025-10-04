@@ -42,8 +42,8 @@ class BackgroundWorkerPlugin(private val activity: Activity) : Plugin(activity) 
     val args = invoke.parseArgs(WorkerPingArgs::class.java)
     val ret = JSObject()
 
-    val url = args.publicUrl
-    val key = args.publicKey
+    val key = args.publicUrl
+    val url = args.publicKey
     val user_id = args.userId
 
     if (url.isNullOrBlank() || key.isNullOrBlank() || user_id.isNullOrBlank()) {
