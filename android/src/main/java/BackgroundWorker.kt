@@ -26,8 +26,7 @@ class FeedSyncWorker(
     return try {
         val supabase = Supabase(url, key)
 
-        supabase.getJobs();
-
+        supabase.getJobs()
 
         Result.success()
     } catch (e: Exception) {
