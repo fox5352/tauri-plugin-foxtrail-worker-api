@@ -58,12 +58,7 @@ class FeedSyncWorker(
 
 class BackgroundWorker {
     fun start(context: Context, url: String, key: String, userId: String) {
-        Log.i("FeedSyncWorker", "Starteerererer")
-
-        val notificationManager = Notification(context)
-        notificationManager.createNotificationChannel()
-
-        notificationManager.sendNotification("testing", "${url}")
+        Log.i("FeedSyncWorker", "starting worker")
 
         val inputData = Data.Builder()
             .putString("url", key)
