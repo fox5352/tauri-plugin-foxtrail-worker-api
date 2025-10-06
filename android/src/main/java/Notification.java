@@ -66,17 +66,37 @@ public class Notification {
 	}
 
 	public void sendNotification(String title, String message) {
-		 try {
+		try {
 			// CHECK PERMISSION FIRST
 			if (!checkNotificationPermission()) {
 				Log.e("Notification", "No notification permission");
 				return;
 			}
 
+			// --- START OF ICON LOOKUP AND FALLBACK ---
+			int smallIconId = 0;
+			try {
+				// 1. Try to find the custom icon ('ic_notification') in your plugin's resources
+				smallIconId = context.getResources().getIdentifier(
+					"ic_notification", "drawable", context.getPackageName());
+
+			} catch (Exception e) {
+				// Log the error but proceed to fallback
+				Log.e("Notification", "Error finding custom icon: " + e.getMessage());
+			}
+
+			// 2. If the custom icon is not found (ID is 0), use a reliable system icon
+			if (smallIconId == 0) {
+				smallIconId = android.R.drawable.ic_dialog_info; // A standard, safe system icon
+				Log.w("Notification", "Custom icon 'ic_notification' not found. Falling back to system icon.");
+			}
+			// --- END OF ICON LOOKUP AND FALLBACK ---
+
 			int notificationId = random.nextInt(1000);
 
 			NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "default_channel")
-			.setSmallIcon(android.R.drawable.ic_dialog_info)
+			// Use the determined icon ID (custom or system fallback)
+			.setSmallIcon(smallIconId)
 			.setContentTitle(title)
 			.setContentText(message)
 			.setPriority(NotificationCompat.PRIORITY_DEFAULT)
