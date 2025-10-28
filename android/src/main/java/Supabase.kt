@@ -32,6 +32,12 @@ data class FeedCountResponse(
     @SerialName("get_feed_count") val count: Int
 )
 
+@Serializable
+data class BatchCreatedAt(
+    @SerialName("created_at") val created_at: String,
+    @SerialName("batch_number") val batch_number: Int
+)
+
 class Supabase(sbUrl: String, sbKey: String) {
 
     private val client: SupabaseClient = createSupabaseClient(
@@ -62,5 +68,12 @@ class Supabase(sbUrl: String, sbKey: String) {
             .countOrNull()
 
         return count?.toInt() ?: 0
+    }
+
+    suspend fun getLatestBatchCreatedAt(userId: String): String? {
+        val result =  client.from("batch_table").select()
+            .decodeSingleOrNull<BatchCreatedAt>()
+
+        return result?.created_at
     }
 }
