@@ -38,13 +38,13 @@ class FeedSyncWorker(
 
             Log.i("FeedSyncWorker", "Syncing feed for user $userId")
 
-            val count = supabase.getFeedCount(userId)
+            val count = supabase.getNotificationCount(userId)
 
             Log.i("FeedSyncWorker", "Feed count for user $userId: $count")
 
-            if (count > 0) {
+           if (count != null && count > 0) {
                 notificationManager.sendNotification("Updates", "you have $count new updates")
-                        }
+            }
 
             Result.success()
         } catch (e: Exception) {

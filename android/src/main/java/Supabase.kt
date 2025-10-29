@@ -2,11 +2,14 @@
 
 package com.plugin.foxtrailworker
 
+import android.util.Log
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.query.Count
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.from
+import io.github.jan.supabase.postgrest.query.Columns
+import io.github.jan.supabase.postgrest.query.Order
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -35,7 +38,16 @@ data class FeedCountResponse(
 @Serializable
 data class BatchCreatedAt(
     @SerialName("created_at") val created_at: String,
-    @SerialName("batch_number") val batch_number: Int
+    @SerialName("batch_number") val batch_number: Long
+)
+
+
+@Serializable
+data class NotificationType(
+    @SerialName("created_at") val created_at: String,
+    @SerialName("user_id") val user_id: String,
+    @SerialName("batch_number") val batch_number: Long,
+    @SerialName("message_count") val message_count: Long
 )
 
 class Supabase(sbUrl: String, sbKey: String) {
@@ -70,10 +82,37 @@ class Supabase(sbUrl: String, sbKey: String) {
         return count?.toInt() ?: 0
     }
 
-    suspend fun getLatestBatchCreatedAt(userId: String): String? {
-        val result =  client.from("batch_table").select()
-            .decodeSingleOrNull<BatchCreatedAt>()
+    suspend fun getLatestBatchCreatedAt(userId: String): Long? {
 
-        return result?.created_at
+        val result = client.from("batch_table")
+            .select(columns = Columns.list("created_at", "batch_number")) {
+                order(column = "created_at", order = Order.DESCENDING)
+                limit(1)
+            }
+            .decodeList<BatchCreatedAt>()
+            .firstOrNull()
+
+        return result?.batch_number
+    }
+
+    suspend fun getNotificationCount(user_id: String): Long? {
+        val batch_number = getLatestBatchCreatedAt(user_id);
+
+        if (batch_number == null){
+            return null;
+        }
+
+        val result = client.from("notifications")
+            .select(columns = Columns.list("created_at", "user_id", "batch_number", "message_count")) {
+                filter {
+                    eq("user_id", user_id)
+                    eq("batch_number", batch_number)
+                }
+            }.decodeList<NotificationType>()
+            .firstOrNull()
+
+        Log.e("GYATTA", "list:[${result}]")
+
+        return result?.message_count
     }
 }
