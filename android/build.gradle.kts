@@ -53,7 +53,7 @@ dependencies {
     // androidTestImplementation("androidx.work:work-testing:2.10.4")
 
     // Networking
-    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    // implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
     // Supabase - BOM manages versions automatically
@@ -64,5 +64,10 @@ dependencies {
 
     // Ktor
     implementation("io.ktor:ktor-client-android:2.3.6")
+
+    
+    // Kotlin Serialization
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.4")
+
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 }

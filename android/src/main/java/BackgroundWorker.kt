@@ -20,7 +20,7 @@ class FeedSyncWorker(
     val params: WorkerParameters
 ) : CoroutineWorker(appContext, params) {
 
-    override suspend fun doWork(): Result {
+   override suspend fun doWork(): Result {
         val userId = inputData.getString("userId")
         val url = inputData.getString("url")
         val key = inputData.getString("key")
@@ -34,15 +34,13 @@ class FeedSyncWorker(
         notificationManager.createNotificationChannel()
 
         return try {
-            val supabase = Supabase(url, key)
+            val result = fetch(userId, url, key)
 
+            val count = result.messageCount
+            Log.e("GYATTA", "result ------>: ${count}")
             Log.i("FeedSyncWorker", "Syncing feed for user $userId")
 
-            val count = supabase.getNotificationCount(userId)
-
-            Log.i("FeedSyncWorker", "Feed count for user $userId: $count")
-
-           if (count != null && count > 0) {
+            if (count > 0) {  // Removed null check
                 notificationManager.sendNotification("Updates", "you have $count new updates")
             }
 
